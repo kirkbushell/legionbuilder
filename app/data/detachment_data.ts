@@ -1,4 +1,10 @@
-import { DETACHMENT, FACTION, ALLEGIANCE, DETACHMENT_TYPE } from "../types";
+import {
+  DETACHMENT,
+  FACTION,
+  ALLEGIANCE,
+  DETACHMENT_TYPE,
+  SUBFACTION_TYPE,
+} from "../types";
 
 // astartes 1000-1999, solar 2000-2999, knights-titans 4000-4999, unique detachments 9000-9999
 
@@ -2441,6 +2447,7 @@ export const detachmentData: DETACHMENT[] = [
     base_cost: 10,
     base_size: 1,
     max_size: 1,
+    break_strength: 0,
     main_unit: [],
     related_unit: [],
     loadout: [],
