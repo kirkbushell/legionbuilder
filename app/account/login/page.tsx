@@ -50,13 +50,13 @@ const page = () => {
 						<label htmlFor="email" className="font-graduate w-1/4">
 							Email
 						</label>
-						<input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="text-secondary-200 bg-secondary-700 w-3/4 p-1 px-2" />
+						<input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="text-secondary-200 bg-secondary-700 w-3/4 p-1 px-2 outline-none focus:outline-secondary-400 focus:border-0" />
 					</div>
 					<div className="flex items-center w-full">
 						<label htmlFor="password" className="font-graduate w-1/4">
 							Password
 						</label>
-						<input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="text-secondary-200 bg-secondary-700 w-3/4 p-1 px-2" />
+						<input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="text-secondary-200 bg-secondary-700 w-3/4 p-1 px-2 outline-none focus:outline-secondary-400 focus:border-0" />
 					</div>
 					<div className="w-full flex items-center gap-12">
 						<button type="submit" className="bg-primary-500 clip-path-halfagon-sm py-1 px-4 text-primary-100 font-semibold font-graduate hover:bg-primary-500 hover:text-primary-500 ml-1/4">
