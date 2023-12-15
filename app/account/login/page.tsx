@@ -7,19 +7,27 @@ import { useRouter } from "next/navigation"
 import useAuthState from "@/app/Auth"
 import Main from "@components/Main"
 import { useForm } from "react-hook-form"
+import * as zod from "zod"
+import { zodResolver } from "@hookform/resolvers/zod"
 
 type FormData = {
 	email: string
 	password: string
 }
 
+const formSchema = zod
+	.object({
+		email: zod.string().email().min(3).max(255),
+		password: zod.string().min(1),
+	})
+	.required()
+
 const page = () => {
 	const {
 		register,
 		handleSubmit,
-		watch,
 		formState: { errors },
-	} = useForm<FormData>()
+	} = useForm({ resolver: zodResolver(formSchema) })
 
 	const onSubmit = (data) => console.log(data)
 	const saveSession = useAuthState((state) => state.saveSession)
@@ -48,10 +56,10 @@ const page = () => {
 							Email
 						</label>
 						<div className="w-3/4">
-							<input type="email" {...register("email", { required: true })} aria-invalid={errors.email ? "true" : "false"} className="w-full text-secondary-200 bg-secondary-700 p-1 px-2 outline-none focus:outline-secondary-400 focus:border-0" />
-							{errors.email?.type === "required" && (
+							<input type="email" {...register("email")} className="w-full text-secondary-200 bg-secondary-700 p-1 px-2 outline-none focus:outline-secondary-400 focus:border-0" />
+							{errors.email && (
 								<p role="alert" className="bg-error-800 my-1 p-2 py-1 clip-path-halfagon-sm">
-									Email is required.
+									{`${errors.email.message}`}
 								</p>
 							)}
 						</div>
