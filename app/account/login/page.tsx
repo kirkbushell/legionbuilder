@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react"
+import React from "react"
 import Link from "next/link"
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
 import { useRouter } from "next/navigation"
@@ -9,6 +9,9 @@ import Main from "@components/Main"
 import { useForm } from "react-hook-form"
 import * as zod from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { Message, MessageType, useToasterState } from "@components/toaster/state"
+import { FirebaseError } from "@firebase/util"
+import errorMap from "@utils/FirebaseErrorMap.json"
 
 type FormData = {
 	email: string
@@ -23,34 +26,37 @@ const formSchema = zod
 	.required()
 
 const page = () => {
+	const { add } = useToasterState()
+
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm({ resolver: zodResolver(formSchema) })
+	} = useForm<FormData>({ resolver: zodResolver(formSchema) })
 
-	const onSubmit = (data) => console.log(data)
 	const saveSession = useAuthState((state) => state.saveSession)
-
 	const auth = getAuth()
 	const router = useRouter()
 
-	const handleSignIn = async (e: React.SyntheticEvent) => {
-		e.preventDefault()
-
+	const handleSignIn = async (data: FormData) => {
 		try {
-			const credentials = await signInWithEmailAndPassword(auth, email, password)
+			const credentials = await signInWithEmailAndPassword(auth, data.email, data.password)
 			saveSession(credentials.user.uid)
 			router.back()
-		} catch (error) {
-			console.log(error)
+		} catch (error: unknown) {
+			if (error instanceof FirebaseError) {
+				// @ts-ignore - don't know how to resolve this one, as you can't define types on JSON files.
+				let message = errorMap[error.code] ?? error.message
+
+				add(new Message(MessageType.Error, message))
+			}
 		}
 	}
 
 	return (
 		<Main className="flex flex-col mt-20 items-center">
 			<section className="flex flex-col gap-12 p-4 w-full lg:w-1/2">
-				<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6 items-start">
+				<form onSubmit={handleSubmit(handleSignIn)} className="flex flex-col gap-6 items-start">
 					<div className="flex w-full">
 						<label htmlFor="email" className="font-graduate w-1/4 py-1">
 							Email
