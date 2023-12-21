@@ -16,7 +16,7 @@ export default function () {
 	const { messages } = useToasterState()
 
 	return (
-		<div className="absolute bottom-0 space-y-2 m-2">
+		<div className="absolute bottom-0 space-y-2 m-4">
 			{messages.map((message) => (
 				<ToasterMessage message={message} key={message.id} />
 			))}

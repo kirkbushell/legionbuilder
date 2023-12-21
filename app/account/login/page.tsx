@@ -42,12 +42,11 @@ const page = () => {
 		try {
 			const credentials = await signInWithEmailAndPassword(auth, data.email, data.password)
 			saveSession(credentials.user.uid)
-			router.back()
+			router.push("/lists")
 		} catch (error: unknown) {
 			if (error instanceof FirebaseError) {
 				// @ts-ignore - don't know how to resolve this one, as you can't define types on JSON files.
 				let message = errorMap[error.code] ?? error.message
-
 				add(new Message(MessageType.Error, message))
 			}
 		}

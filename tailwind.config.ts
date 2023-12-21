@@ -38,6 +38,9 @@ const config: Config = {
 					"950": "hsl(23, 69%, 14%)",
 				},
 				error: colors.orange,
+				success: colors.lime,
+				info: colors.teal,
+				warning: colors.orange,
 			},
 			fontSize: {
 				lg: "110%",
