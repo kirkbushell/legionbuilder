@@ -37,6 +37,7 @@ const config: Config = {
 					"900": "hsl(24, 60%, 26%)",
 					"950": "hsl(23, 69%, 14%)",
 				},
+				disabled: colors.gray,
 				error: colors.orange,
 				success: colors.lime,
 				info: colors.teal,
